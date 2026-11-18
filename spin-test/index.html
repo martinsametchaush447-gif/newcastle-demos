@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gearbox Spin Test</title>
+<script type="module" src="model-viewer.min.js"></script>
+<style>
+  :root{--ink:#0E0F11;--panel:#17191C;--text:#F2F0EC;--muted:#A9A69F;--accent:#E3262E}
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--ink);color:var(--text);font:16px/1.5 "Segoe UI",system-ui,-apple-system,sans-serif;overflow-x:clip}
+  main{max-width:720px;margin:0 auto;padding:max(20px,env(safe-area-inset-top)) 16px 40px}
+  .kicker{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:8px 0 6px}
+  h1{font-size:clamp(30px,8vw,46px);line-height:1.05;margin:0 0 10px;font-weight:800;letter-spacing:-.01em}
+  h1 em{font-style:normal;color:var(--accent)}
+  p{color:var(--muted);margin:0 0 18px;max-width:46ch}
+  .stage{position:relative;border-radius:14px;overflow:hidden;background:radial-gradient(120% 90% at 50% 35%,#2a2d32 0%,#121316 70%)}
+  model-viewer{width:100%;height:min(70svh,560px);--poster-color:transparent;outline:none}
+  .tag{position:absolute;top:12px;left:12px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;background:rgba(0,0,0,.55);padding:5px 9px;border-radius:4px;color:var(--text);pointer-events:none}
+  .ar{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);display:flex;align-items:center;gap:10px;min-height:48px;padding:0 20px;border:0;border-radius:999px;background:var(--accent);color:#fff;font:700 15px/1 inherit;letter-spacing:.02em;cursor:pointer;-webkit-tap-highlight-color:transparent;white-space:nowrap}
+  .ar:active{transform:translateX(-50%) scale(.97)}
+  .hint{text-align:center;font-size:13px;color:var(--muted);margin:12px 0 0}
+  .noar{display:none}
+  model-viewer:not([ar-status]) ~ .noar{display:none}
+  footer{margin-top:28px;font-size:12px;color:#77746e;border-top:1px solid #26282c;padding-top:14px}
+</style>
+</head>
+<body>
+<main>
+  <div class="kicker">Gearbox repairs · Test page</div>
+  <h1>Spin it. Then put it <em>on your table.</em></h1>
+  <p>Drag to turn the gearbox, pinch to zoom. On a phone, tap the red button to place it in the room through your camera.</p>
+  <div class="stage">
+    <model-viewer id="mv" src="gearbox.glb" alt="3D illustration of a car gearbox" camera-controls touch-action="pan-y"
+      auto-rotate auto-rotate-delay="1500" rotation-per-second="18deg" interaction-prompt="auto" shadow-intensity="1"
+      exposure="1.05" environment-image="neutral" ar ar-modes="webxr scene-viewer quick-look" ar-scale="auto" ar-placement="floor">
+      <button slot="ar-button" class="ar" type="button">See it on your table</button>
+    </model-viewer>
+    <span class="tag">3D illustration</span>
+  </div>
+  <div class="hint" id="hint">Loading the model…</div>
+  <footer>Test of a spin-and-AR block for F1 Recovery and Repairs Centre. Generic gearbox illustration, not a specific car.</footer>
+</main>
+<script>
+  const mv = document.getElementById('mv'), hint = document.getElementById('hint');
+  mv.addEventListener('load', () => { hint.textContent = mv.canActivateAR ? 'AR is available on this phone.' : 'Drag to spin. AR shows on phones that support it.'; });
+  mv.addEventListener('error', () => { hint.textContent = 'The model did not load.'; });
+</script>
+</body>
+</html>
